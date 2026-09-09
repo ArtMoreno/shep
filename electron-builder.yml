@@ -27,6 +27,7 @@ mac:
   icon: public/assets/herdr-icon-512.png
   category: public.app-category.developer-tools
 linux:
+  maintainer: ArtMoreno <88446732+ArtMoreno@users.noreply.github.com>
   target: [AppImage, deb]
   icon: public/assets/herdr-icon-512.png
   category: Development
