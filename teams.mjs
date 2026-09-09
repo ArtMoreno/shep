@@ -31,10 +31,10 @@ export function createTeams({choices,launch,snapshot,send,session,file,allowed})
     if(typeof body.id!=='string'||!/^[-a-zA-Z0-9]{8,80}$/.test(body.id))throw fail('Invalid team receipt');
     const fingerprint=JSON.stringify(body);
     const old=teams.get(body.id);if(old){if(old.fingerprint!==fingerprint)throw fail('Team receipt conflicts',409);return old;}
-    if(creating)throw fail('Another team is starting. Wait for setup to finish.',409);
     if(body.orchestrated!==undefined&&typeof body.orchestrated!=='boolean')throw fail('Choose independent panes or an orchestrated team');
     const orchestrated=body.orchestrated!==false;
     if(!Array.isArray(body.members)||body.members.length<1||body.members.length>4)throw fail('Choose one orchestrator and up to three workers');
+    if(creating)throw fail('Another team is starting. Wait for setup to finish.',409);
     if(orchestrated){
       if(typeof body.task!=='string'||!body.task.trim()||body.task.length>3000||/[\x00-\x08\x0b-\x1f\x7f]/.test(body.task))throw fail('Describe the task (3000 characters maximum)');
       if(typeof body.branch!=='string'||!/^[a-zA-Z0-9][a-zA-Z0-9/_-]{0,70}$/.test(body.branch))throw fail('Use letters, numbers, slash, dash or underscore for the team branch');
