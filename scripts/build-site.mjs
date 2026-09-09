@@ -9,5 +9,5 @@ await copyFile('docs/video/shep-demo.mp4',join(out,'assets/shep-demo.mp4'));
 await copyFile('site/demo.vtt',join(out,'assets/demo.vtt'));
 await copyFile('site/herdr-logo.svg',join(out,'assets/herdr-logo.svg'));
 await writeFile(join(out,'.nojekyll'),'');
-await writeFile(join(out,'notices.txt'),await readFile('THIRD-PARTY-NOTICES.md','utf8')+'\n\n'+await readFile('licenses/Heeler-Apache-2.0.txt','utf8')+'\n\n'+await readFile('licenses/LobeIcons-MIT.txt','utf8'));
+await writeFile(join(out,'notices.txt'),await readFile('THIRD-PARTY-NOTICES.md','utf8')+'\n\n'+await readFile('licenses/Heeler-Apache-2.0.txt','utf8')+'\n\n'+await readFile('licenses/LobeIcons-MIT.txt','utf8')+'\n\nShep original code and website:\n'+await readFile('LICENSE','utf8'));
 console.log('Static site prepared in .local/site-dist. Only the listed site and media files are copied.');

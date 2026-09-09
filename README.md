@@ -17,7 +17,7 @@ Keep the original theme or switch to Ghostty, Matrix, Windows XP, iMessage light
 
 ## Install
 
-The installers are in private preview and are unsigned. Public downloads are not available yet. You’ll need [Herdr](https://github.com/ogulcancelik/herdr), [Tailscale](https://tailscale.com/download), and a computer that stays awake. Sign in to your agent tools on that computer as usual.
+[Download the public preview](https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview). The installers are unsigned; Windows and macOS may show a warning. You’ll need [Herdr](https://github.com/ogulcancelik/herdr), [Tailscale](https://tailscale.com/download), and a computer that stays awake. Sign in to your agent tools on that computer as usual.
 
 | Computer | Installer |
 | --- | --- |
@@ -34,6 +34,14 @@ The installers are in private preview and are unsigned. Public downloads are not
 
 You can enable startup at sign-in in desktop setup. Closing the window leaves Shep in the tray; choose **Quit Shep** to stop it. Revoke a paired phone from the device list. On Linux, keep the AppImage in a permanent folder before enabling startup.
 
+## Herdr companion plugin
+
+```sh
+herdr plugin install ArtMoreno/shep
+```
+
+Use **Open Shep setup** in the plugin actions. It opens the installed app or the downloads page. The plugin does not replace the installer or phone pairing. Requires Herdr 0.9.0+. [Platform notes](plugin/README.md).
+
 ## If it won’t connect
 
 - **Herdr isn’t found:** open Herdr, check the session name, or use **Locate Herdr CLI**.
@@ -49,13 +57,13 @@ You can enable startup at sign-in in desktop setup. Closing the window leaves Sh
 - Earlier output depends on the terminal app. Some full-screen programs do not retain scrollback.
 - iPhone notifications need Home Screen installation and permission. Real phone pairing and push delivery still need device testing.
 - Linux tray and AppImage support vary by desktop and distribution. Prefer the DEB on supported Debian/Ubuntu desktops.
-- Windows signing and macOS signing/notarization are still needed before broad distribution. Private preview updates use manual downloads.
+- Windows signing and macOS signing/notarization are still needed for a signed release. Preview updates use manual downloads.
 
-Setup/security checks and packaged-window tests passed on Windows, Linux, Intel Mac, and Apple Silicon. The Windows run also passed the existing 76-test suite. [See the build results](https://github.com/ArtMoreno/shep/actions/runs/34380422306).
+Setup/security checks and packaged-window tests passed on Windows, Linux, Intel Mac, and Apple Silicon. The Windows run also passed the 77-test app suite. [See the build results](https://github.com/ArtMoreno/shep/actions/runs/34390985264).
 
 ## Help test Shep
 
-Automated builds and smoke checks passed on macOS and Linux, but we still need real-device testing. When the preview is public, try it on your setup and [report a bug or contribute a fix](CONTRIBUTING.md). We’ll credit testing and fixes with your permission.
+Automated builds and smoke checks passed on macOS and Linux, but we still need real-device testing. Try the preview on your setup and [report a bug or contribute a fix](CONTRIBUTING.md). We’ll credit testing and fixes with your permission.
 
 ## Privacy
 
@@ -65,4 +73,4 @@ The repository and installer build exclude local configuration, keys, chats, att
 
 Revoking a phone blocks future terminal requests and push sends to that device. A notification already sent to a push service may still arrive.
 
-Maintained by [ArtMoreno](https://github.com/ArtMoreno). Required third-party notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [licenses](licenses). No license for the original application code has been granted yet.
+Maintained by [ArtMoreno](https://github.com/ArtMoreno). Required third-party notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [licenses](licenses). Original Shep code is available under the [MIT license](LICENSE).

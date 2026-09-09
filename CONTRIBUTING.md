@@ -1,6 +1,6 @@
 # Help test Shep
 
-The app and installers are still in private preview. This guide is for invited testers now and community testers when downloads become public.
+Shep is available as a public preview. Testing on real computers and phones is welcome.
 
 ## Try it on your setup
 
@@ -10,7 +10,7 @@ Check installation and launch, Tailscale pairing, opening and switching panes, t
 
 ## Report a problem
 
-When the repository is public, open a GitHub issue. Tell us what you tried, what you expected, what happened, and how to repeat it. A short recording helps. Remove API keys, pairing QR codes and links, account identifiers, private chats, and personal paths from screenshots and logs.
+Open a GitHub issue. Tell us what you tried, what you expected, what happened, and how to repeat it. A short recording helps. Remove API keys, pairing QR codes and links, account identifiers, private chats, and personal paths from screenshots and logs.
 
 ## Send a fix
 

@@ -27,7 +27,7 @@ Open **http://127.0.0.1:4317** on the bridge computer. Phone access requires a p
 
 Configuration uses `HERDR_MOBILE_SESSION`, `HERDR_MOBILE_WORKSPACE`, `HERDR_MOBILE_BIN`, and `HERDR_MOBILE_PORT`. An explicit workspace limits the bridge scope. Keep private access configuration under ignored `.local/` and use your own credentials and machine settings.
 
-`Start-Mobile.ps1` can supervise the bridge. This backup does not install a scheduled task or copy the original computer's configuration.
+`Start-Mobile.ps1` can supervise the bridge. Source setup does not install a scheduled task or copy another computer's configuration.
 
 ### Reproduce the screenshots
 
@@ -39,7 +39,7 @@ Open **http://127.0.0.1:4319**. The demo rejects terminal writes and does not co
 
 ## What to expect
 
-This is a private development backup, not a universal compatibility guarantee.
+This is preview software. Platform support still needs real-device testing.
 
 - Agent status and available history depend on Herdr and the underlying TUI. Alternate-screen programs may not retain earlier output.
 - SSH sessions currently support reading, launch, and keyboard input. Remote mouse input, file transfers, and teams are not implemented.
