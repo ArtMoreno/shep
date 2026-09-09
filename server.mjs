@@ -43,8 +43,8 @@ const files = new Map([
 ]);
 for (const size of [32,192,512]) files.set(`/assets/herdr-icon-${size}.png`, [`public/assets/herdr-icon-${size}.png`, 'image/png']);
 for (const icon of ['arrow-up', 'arrow-left', 'chevron-down', 'chevron-right', 'adjustments-horizontal', 'x', 'plus', 'keyboard', 'layout-grid']) files.set(`/assets/${icon}.svg`, [`public/assets/${icon}.svg`, 'image/svg+xml']);
-for (const brand of ['claude','codex','grok','agy','openrouter','opencode','omp']) files.set(`/brands/${brand}.svg`, [`references/provider-svg/${brand}.svg`, 'image/svg+xml']);
-files.set('/brands/hermes.png', ['references/hermes-user.png', 'image/png']);
+for (const brand of ['claude','codex','grok','agy','openrouter','opencode','omp']) files.set(`/brands/${brand}.svg`, [`public/brands/${brand}.svg`, 'image/svg+xml']);
+files.set('/brands/hermes.png', ['public/brands/hermes.png', 'image/png']);
 const fail = (status, message) => Object.assign(new Error(message), { status });
 
 export function validateAction(body) {

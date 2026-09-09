@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {readFile,readdir} from 'node:fs/promises';
 import {join} from 'node:path';
 const root='.local/site-dist';
-const expected=['.nojekyll','index.html','style.css','notices.txt','assets/shep-logo.png','assets/chat.png','assets/sessions.png','assets/controls.png','assets/attention.png','assets/video-poster.jpg','assets/shep-demo.mp4','assets/demo.vtt','assets/herdr-logo.svg'].sort();
+const expected=['.nojekyll','index.html','style.css','notices.txt','assets/shep-logo.png','assets/chat.png','assets/sessions.png','assets/controls.png','assets/attention.png','assets/video-poster.jpg','assets/shep-demo.mp4','assets/demo.vtt','assets/herdr-logo.svg','assets/quotadeck.png','assets/theme-ghostty.png','assets/theme-matrix.png','assets/theme-xp.png'].sort();
 async function files(folder,prefix=''){const result=[];for(const entry of await readdir(folder,{withFileTypes:true})){const name=prefix+entry.name;result.push(...(entry.isDirectory()?await files(join(folder,entry.name),name+'/'):[name]));}return result;}
 assert.deepEqual((await files(root)).sort(),expected,'Website output contains unexpected files');
 const html=await readFile(join(root,'index.html'),'utf8');

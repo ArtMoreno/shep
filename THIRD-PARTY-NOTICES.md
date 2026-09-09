@@ -21,3 +21,11 @@ Ghostty theme embeds unmodified JetBrains Mono Regular WOFF2 from https://github
 ## Herdr logo
 
 The website uses the unmodified Herdr logo from https://github.com/herdrdev/herdr/blob/master/assets/logo.svg to identify the terminal application Shep connects to. Original artwork belongs to the Herdr contributors; the source repository is licensed under Apache 2.0 (reproduced in licenses/Heeler-Apache-2.0.txt). Herdr is a separate project; this credit does not imply endorsement.
+
+## Provider marks
+
+The provider icons in public/brands identify their respective services in QuotaDeck. They remain the marks of their respective owners. Their inclusion does not imply endorsement of Shep. The OpenAI icon is adapted from LobeHub lobe-icons (MIT); see licenses/LobeIcons-MIT.txt. Claude, OpenRouter, and the Google spark are sourced from Simple Icons (CC0).
+
+## Demo soundtrack
+
+The website demo includes an original synthesized instrumental made for Shep. No commercial song, sample pack, or third-party recording was used.

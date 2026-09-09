@@ -4,6 +4,19 @@ import { mkdtemp, writeFile, readFile, readdir, unlink, rmdir } from 'node:fs/pr
 import { join } from 'node:path';
 import { tmpdir } from 'node:os';
 import { quotaSnapshot } from './quota.mjs';
+import { createBridge } from './server.mjs';
+
+test('packaged QuotaDeck serves every provider icon from bundled public assets', async t=>{
+  const server=createBridge({endpoint:'unused',workspaceId:'demo'});
+  await new Promise(resolve=>server.listen(0,'127.0.0.1',resolve));
+  t.after(()=>new Promise(resolve=>server.close(resolve)));
+  for(const name of ['claude.svg','codex.svg','grok.svg','agy.svg','openrouter.svg','opencode.svg','omp.svg','hermes.png']){
+    const response=await fetch(`http://127.0.0.1:${server.address().port}/brands/${name}`);
+    assert.equal(response.status,200,name);
+    assert.match(response.headers.get('content-type'),/^image\//,name);
+    assert.ok((await response.arrayBuffer()).byteLength>100,name);
+  }
+});
 
 test('QuotaDeck preserves display choices, zero versus unavailable, stale data and private-field boundaries', async t=>{
   const root=await mkdtemp(join(tmpdir(),'herdr-mobile-quota-'));
