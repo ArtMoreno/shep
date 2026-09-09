@@ -43,6 +43,16 @@ jobs:
           sudo chown root:root dist/linux-unpacked/chrome-sandbox
           sudo chmod 4755 dist/linux-unpacked/chrome-sandbox
           xvfb-run -a node scripts/smoke-desktop.mjs --packaged
+      - run: node scripts/check-package.mjs
+      - name: Check plugin launcher
+        if: runner.os == 'Windows'
+        run: powershell -NoProfile -File plugin/open-shep.ps1 -Check
+      - name: Check macOS plugin launcher
+        if: runner.os == 'macOS'
+        run: sh plugin/open-shep.sh macos --check
+      - name: Check Linux plugin launcher
+        if: runner.os == 'Linux'
+        run: sh plugin/open-shep.sh linux --check
       - uses: actions/upload-artifact@v4
         with:
           name: Shep-${{ runner.os }}-${{ runner.arch }}

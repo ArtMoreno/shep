@@ -5,7 +5,6 @@ import {fileURLToPath, pathToFileURL} from 'node:url';
 import {homedir} from 'node:os';
 import net from 'node:net';
 import QRCode from 'qrcode';
-import updater from 'electron-updater';
 import {pairing} from './pairing.mjs';
 import {connectPhone, tailscaleBinary, identity, run} from './setup.mjs';
 import {discover, rpc} from '../herdr.mjs';
@@ -90,15 +89,8 @@ else {
         if(!urls[value])throw Error('Unknown help link.');
         await shell.openExternal(urls[value]);
       }else if(name==='update'){
-        if(!app.isPackaged)throw Error('Updates are available in installed builds.');
-        updater.autoUpdater.autoDownload=false;
-        updater.autoUpdater.autoInstallOnAppQuit=false;
-        const result=await updater.autoUpdater.checkForUpdates();
-        if(!result||result.updateInfo.version===app.getVersion())message='You have the latest release.';
-        else {
-          const answer=await dialog.showMessageBox(win,{type:'question',message:`Download Shep ${result.updateInfo.version}?`,buttons:['Download','Later'],defaultId:1,cancelId:1});
-          if(answer.response===0){await updater.autoUpdater.downloadUpdate();const install=await dialog.showMessageBox(win,{message:'Update downloaded. Restart Shep to install?',buttons:['Restart','Later'],defaultId:1,cancelId:1});if(install.response===0){quitting=true;updater.autoUpdater.quitAndInstall();}}
-        }
+        await shell.openExternal('https://github.com/ArtMoreno/shep/releases');
+        message='Download the latest preview from GitHub Releases. Quit Shep before installing it; your settings are preserved.';
       }else throw Error('Unknown setup action.');
       return status();
     } finally{busy=false;}
@@ -135,6 +127,5 @@ else {
     }
     if(settings.enabled)await start().catch(e=>{message=e.message;});
     timer=setInterval(()=>{if(settings.enabled&&!bridge&&!busy){busy=true;start().catch(e=>{message=e.message;}).finally(()=>{busy=false;});}},15000);
-    updater.autoUpdater.on('error',()=>{message='Update check unavailable. Use GitHub Releases; private repositories require manual downloads.';});
   }).catch(async error=>{console.error(error);if(smoke){await writeFile(join(app.getPath('userData'),'smoke-error.txt'),error.stack||error.message);app.exit(1);}else{dialog.showErrorBox('Shep could not start',error.message);app.quit();}});
 }

@@ -1,0 +1,48 @@
+id = "artmoreno.shep"
+name = "Shep"
+version = "0.2.0"
+min_herdr_version = "0.9.0"
+description = "Open Shep setup and connect your Herdr terminals to your phone."
+platforms = ["windows", "macos", "linux"]
+
+[[actions]]
+id = "open-windows"
+title = "Open Shep setup"
+contexts = ["workspace"]
+platforms = ["windows"]
+command = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "plugin/open-shep.ps1"]
+
+[[actions]]
+id = "open-macos"
+title = "Open Shep setup"
+contexts = ["workspace"]
+platforms = ["macos"]
+command = ["sh", "plugin/open-shep.sh", "macos"]
+
+[[actions]]
+id = "open-linux"
+title = "Open Shep setup"
+contexts = ["workspace"]
+platforms = ["linux"]
+command = ["sh", "plugin/open-shep.sh", "linux"]
+
+[[actions]]
+id = "download-windows"
+title = "Install or update Shep"
+contexts = ["workspace"]
+platforms = ["windows"]
+command = ["powershell.exe", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "plugin/open-shep.ps1", "-Download"]
+
+[[actions]]
+id = "download-macos"
+title = "Install or update Shep"
+contexts = ["workspace"]
+platforms = ["macos"]
+command = ["open", "https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview"]
+
+[[actions]]
+id = "download-linux"
+title = "Install or update Shep"
+contexts = ["workspace"]
+platforms = ["linux"]
+command = ["xdg-open", "https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview"]
