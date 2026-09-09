@@ -44,7 +44,7 @@ Settings, pairing hashes, and push credentials live in Electron's per-user appli
 | Platform | Package | Preview limits |
 | --- | --- | --- |
 | Windows | Setup EXE, per-user install | Direct terminal mouse helper additionally requires Python |
-| macOS | DMG and ZIP | Native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
+| macOS 13+ | Intel / Apple Silicon DMG and ZIP | Native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
 | Linux | AppImage and DEB | Desktop tray support varies; native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
 
 Preview packages are unsigned. Public distribution needs Windows code signing and macOS signing/notarization. macOS Intel and Apple Silicon need separate matching builds. Linux AppImage updates are supported by the updater; DEB users should install the newer package. Private GitHub repositories use manual downloads: no GitHub credential is bundled into the app. **Check for updates** can use public GitHub release metadata after publication, with explicit download/restart confirmation.
@@ -104,6 +104,6 @@ Excluded: `.local/`, installed dependencies, personal wallpapers, chats, recordi
 
 ## Authorship and notices
 
-Maintained by the repository owner. This backup uses a single owner-authored commit and GitHub's no-reply email; no assistant co-author credit is added.
+Maintained by the repository owner. This repository uses owner-authored commits and GitHub's no-reply email; no assistant co-author credit is added.
 
 Third-party authorship and license notices remain in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), [licenses](licenses), and asset license files. Theme references do not imply affiliation or endorsement. No new license for the original application code is granted by this backup.
