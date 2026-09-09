@@ -27,9 +27,44 @@ Check what your agents are doing, open the pane that needs you, and send the nex
 - **Make it yours:** the original lime-and-purple look, Silver macOS, Ghostty-inspired variants, and other built-in themes.
 - **Phone input:** reviewed dictation, photo attachments, and hardware keyboard shortcuts where supported.
 
+## Desktop installers (preview)
+
+Shep now includes a desktop setup wizard for Windows, macOS, and Linux. It bundles its Node runtime: users do not need Git, npm, or an AI coding assistant.
+
+1. Download the installer for your computer from **GitHub Releases**, once a preview release is published. CI build artifacts are available to repository collaborators while the repository is private.
+2. Install and open Shep. Open Herdr, then choose **Start Shep**.
+3. Install Tailscale on the computer and phone, sign into the same account, and choose **Set up phone access**. Enable HTTPS in the Tailscale admin console if prompted.
+4. Choose **Create pairing QR**, scan it, and add Shep to the phone's Home Screen. Each code lasts five minutes and is single-use. Pair additional devices separately; revoke them in desktop setup.
+5. Optionally enable **Start Shep when I sign in**. Keep the host awake. The tray menu opens setup or quits the bridge.
+
+Shep reserves private HTTPS port 8443 and refuses to replace another application's route. It never enables public Tailscale Funnel. Setup may require a Tailscale permission step; it does not silently elevate or change account access policies. Tailscale enrollment remains a user sign-in step.
+
+Settings, pairing hashes, and push credentials live in Electron's per-user application-data directory, separate from installed files. The installer preserves them during updates/uninstall. Uninstall Tailscale routes separately if you stop using them. No provider credentials ship with the installer.
+
+| Platform | Package | Preview limits |
+| --- | --- | --- |
+| Windows | Setup EXE, per-user install | Direct terminal mouse helper additionally requires Python |
+| macOS | DMG and ZIP | Native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
+| Linux | AppImage and DEB | Desktop tray support varies; native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
+
+Preview packages are unsigned. Public distribution needs Windows code signing and macOS signing/notarization. macOS Intel and Apple Silicon need separate matching builds. Linux AppImage updates are supported by the updater; DEB users should install the newer package. Private GitHub repositories use manual downloads: no GitHub credential is bundled into the app. **Check for updates** can use public GitHub release metadata after publication, with explicit download/restart confirmation.
+
+### Build and check installers
+
+```sh
+npm ci
+npm run test:desktop
+npm run test:window
+npm run dist -- --publish never
+```
+
+Build on the target operating system. For Linux headless window checks use `xvfb-run -a npm run test:window`. The GitHub Actions desktop workflow tests the setup/security logic, opens the setup window with isolated data, and builds native artifacts on Windows, macOS, and Linux. It does not publish a release or change repository visibility.
+
+The window smoke check verifies renderer-to-main IPC and the bundled runtime, and captures a local screenshot. Pairing/route tests use disposable configurations. These checks do not establish real iPhone notification delivery or complete Herdr compatibility on every operating system.
+
 ## Run locally
 
-Requirements: Node.js 24+, installed Herdr, and a running Herdr session. Windows is the primary bridge host.
+Requirements for source development: Node.js 24+, installed Herdr, and a running Herdr session. The installer bundles Node; the commands below are for developers.
 
 ```sh
 npm ci

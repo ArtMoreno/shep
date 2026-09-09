@@ -1,4 +1,5 @@
 import http from 'node:http';
+import {homedir} from 'node:os';
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { randomBytes, randomUUID, createHash } from 'node:crypto';
 import { fileURLToPath } from 'node:url';
@@ -16,6 +17,8 @@ import { terminalMouse } from './terminal-mouse.mjs';
 import {sizeNeovim} from './neovim-size.mjs';
 import {savedMachines,remoteTransport} from './machines.mjs';
 import {macWelcomeCommand} from './mac-welcome.mjs';
+
+const statePath = name => join(process.env.SHEP_STATE_DIR || fileURLToPath(new URL('.local/', import.meta.url)), name);
 
 export const keys = new Set(['enter', 'esc', 'tab', 'backspace', 'pageup', 'pagedown', 'left', 'right', 'up', 'down', 'ctrl+c']);
 const files = new Map([
@@ -212,6 +215,7 @@ export function createBridge(connection, call = rpc, wallpaper = pcWallpaper, qu
       } else if (![`127.0.0.1:${port}`, `localhost:${port}`].includes(request.headers.host)) throw fail(403, 'Unrecognized local host');
       const origin = privateRequest ? access.origin : `http://${request.headers.host}`;
       const url = new URL(request.url, origin);
+      if(privateRequest && connection.authorize && !await connection.authorize(request,response,url)) return;
       const openPage = request.method === 'GET' && url.pathname === '/' && request.headers['sec-fetch-mode'] === 'navigate' && request.headers['sec-fetch-dest'] === 'document';
       if (request.headers['sec-fetch-site'] === 'cross-site' && !openPage) throw fail(403, 'Cross-site requests are not allowed');
       if (request.method === 'GET' && files.has(url.pathname)) {
@@ -291,7 +295,7 @@ export function createBridge(connection, call = rpc, wallpaper = pcWallpaper, qu
         for await(const chunk of request){size+=chunk.length;if(size>limit)throw fail(413,'Files must be 20 MB or smaller');chunks.push(chunk);}
         selectPane(await snapshot(),paneId,terminalId);
         const id=randomUUID(), extension=extname(name);
-        const directory=connection.uploadDir||fileURLToPath(new URL('.local/uploads/',import.meta.url));
+        const directory=connection.uploadDir||statePath('uploads');
         await mkdir(directory,{recursive:true});
         const path=join(directory,id+(/^\.[a-zA-Z0-9]{1,12}$/.test(extension)?extension:'.bin'));
         await writeFile(path,Buffer.concat(chunks),{flag:'wx'});
@@ -402,17 +406,18 @@ export function createBridge(connection, call = rpc, wallpaper = pcWallpaper, qu
   return server;
 }
 
-if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
-  try {
+export async function startBridge({authorize} = {}) {
+    await mkdir(statePath(''), {recursive:true});
     const connection = await discover(process.env.HERDR_MOBILE_SESSION || 'default');
-    connection.teamFile=fileURLToPath(new URL('.local/teams.json',import.meta.url));
+    connection.launchHome=async()=>homedir();
+    connection.teamFile=statePath('teams.json');
     const state = (await rpc(connection.endpoint, 'session.snapshot')).snapshot;
     connection.workspaceId = process.env.HERDR_MOBILE_WORKSPACE || state.focused_workspace_id;
     connection.followSession = !process.env.HERDR_MOBILE_WORKSPACE;
     if (!connection.workspaceId) throw new Error('Open a Herdr workspace before starting the bridge');
-    try { connection.access = JSON.parse(await readFile(new URL('.local/access.json', import.meta.url), 'utf8')); }
+    try { connection.access = JSON.parse(await readFile(statePath('access.json'), 'utf8')); }
     catch (error) { if (error.code !== 'ENOENT') throw error; }
-    const workspaceFile=new URL('.local/mobile-workspaces.json',import.meta.url);
+    const workspaceFile=statePath('mobile-workspaces.json');
     try { connection.workspaceIds=JSON.parse(await readFile(workspaceFile,'utf8')).filter(id=>typeof id==='string'); }
     catch(error) { if(error.code!=='ENOENT')throw error; }
     if (!state.workspaces.some(w => w.workspace_id === connection.workspaceId) && !connection.workspaceIds?.includes(connection.workspaceId)) throw new Error('The selected Herdr workspace is unavailable');
@@ -420,7 +425,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
     const port = Number(process.env.HERDR_MOBILE_PORT || 4317);
     if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid bridge port');
     const watchers=new Map();
-    const push=await createPushService({file:fileURLToPath(new URL('.local/push.json',import.meta.url)),origin:connection.access?.origin||'https://herdr.dev',snapshot:async()=>{
+    const push=await createPushService({file:statePath('push.json'),origin:connection.access?.origin||'https://herdr.dev',snapshot:async()=>{
       const allowed=new Set([connection.workspaceId,...(connection.workspaceIds||[])]);
       const saved=await savedMachines();
       for(const [id,w] of watchers)if(!saved.some(m=>m.id===id&&JSON.stringify(m)===w.identity)){w.transport.close();watchers.delete(id);}
@@ -431,6 +436,7 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       }
       return (await Promise.allSettled(reads)).flatMap(r=>r.status==='fulfilled'?r.value:[]);
     }});
+    connection.authorize=authorize;
     connection.cookie=`herdr_mobile=${randomBytes(32).toString('hex')}`;
     const remoteBridges=new Map();let machines=[],machinesAt=0;
     connection.machineRouter=async(request,response,url)=>{
@@ -440,13 +446,16 @@ if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.ur
       const machine=machines.find(m=>m.id===url.searchParams.get('machine'));if(!machine)throw fail(404,'Saved machine unavailable. Enable it in Herdr on your PC.');
       let remote=remoteBridges.get(machine.id);
       if(remote&&remote.identity!==JSON.stringify(machine)){remote.transport.close();remoteBridges.delete(machine.id);remote=undefined;}
-      if(!remote){const transport=remoteTransport(machine);const child=createBridge({endpoint:'ssh',launchHome:async()=>(await transport.call('','shep.launch-info')).home,session:machine.session,followSession:true,machine:{id:machine.id,label:machine.label},access:connection.access,cookie:connection.cookie,publicPort:port,directoryCheck:async cwd=>(await transport.call('','shep.launch-info',{cwd})).directory},transport.call,undefined,async()=>({providers:[]}),async()=>{const info=await transport.call('','shep.launch-info');return [...agents.filter(a=>info.agents.includes(a.id)),{id:'empty',name:'Empty terminal · no agent',modes:['default']}];},push);remote={child,transport,identity:JSON.stringify(machine)};remoteBridges.set(machine.id,remote);}
+      if(!remote){const transport=remoteTransport(machine);const child=createBridge({endpoint:'ssh',launchHome:async()=>(await transport.call('','shep.launch-info')).home,session:machine.session,followSession:true,machine:{id:machine.id,label:machine.label},access:connection.access,cookie:connection.cookie,publicPort:port,authorize,directoryCheck:async cwd=>(await transport.call('','shep.launch-info',{cwd})).directory},transport.call,undefined,async()=>({providers:[]}),async()=>{const info=await transport.call('','shep.launch-info');return [...agents.filter(a=>info.agents.includes(a.id)),{id:'empty',name:'Empty terminal · no agent',modes:['default']}];},push);remote={child,transport,identity:JSON.stringify(machine)};remoteBridges.set(machine.id,remote);}
       url.searchParams.delete('machine');request.url=url.pathname+url.search;
       remote.child.emit('request',request,response);return true;
     };
     const server = createBridge(connection,undefined,undefined,undefined,undefined,push);
     server.on('close',()=>{push.stop();for(const w of watchers.values())w.transport.close();for(const remote of remoteBridges.values())remote.transport.close();});
-    server.on('error', error => { console.error(error.message); process.exitCode = 1; });
-    server.listen(port, '127.0.0.1', () => console.log(`Herdr Mobile: http://127.0.0.1:${port}\nSession ${connection.session}, workspace ${connection.workspaceId}, protocol ${connection.protocol}.\n${connection.access ? 'Private phone address: ' + connection.access.origin : 'Local access only.'}`));
-  } catch (error) { console.error(error.message); process.exitCode = 1; }
+    await new Promise((resolve,reject)=>{server.once('error',reject);server.listen(port,'127.0.0.1',resolve);}).catch(error=>{push.stop();throw error;});
+    return server;
+}
+
+if (process.argv[1] && resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  startBridge().then(server=>console.log(`Shep: http://127.0.0.1:${server.address().port}`)).catch(error=>{console.error(error.message);process.exitCode=1;});
 }

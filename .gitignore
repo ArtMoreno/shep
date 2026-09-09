@@ -9,3 +9,5 @@ references/
 *.pem
 *.key
 .DS_Store
+
+dist/

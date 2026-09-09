@@ -1,18 +1,31 @@
 {
-  "name": "herdr-mobile",
-  "version": "0.1.0",
+  "name": "shep",
+  "version": "0.2.0",
   "private": true,
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test bridge.test.mjs mobile.test.mjs quota.test.mjs qol.test.mjs opencode-history.test.mjs extras.test.mjs teams.test.mjs drawer.test.mjs machines.test.mjs"
+    "test": "node --test bridge.test.mjs mobile.test.mjs quota.test.mjs qol.test.mjs opencode-history.test.mjs extras.test.mjs teams.test.mjs drawer.test.mjs machines.test.mjs",
+    "desktop": "electron .",
+    "dist": "electron-builder",
+    "test:desktop": "node --test desktop/*.test.mjs",
+    "test:window": "node scripts/smoke-desktop.mjs"
   },
   "engines": {
     "node": ">=24"
   },
   "dependencies": {
     "@xterm/xterm": "6.0.0",
+    "electron-updater": "^6.8.9",
+    "qrcode": "^1.5.4",
     "web-push": "^3.6.7"
-  }
+  },
+  "devDependencies": {
+    "electron": "^44.3.0",
+    "electron-builder": "^26.15.3"
+  },
+  "productName": "Shep",
+  "description": "Your terminals. Within reach. A desktop companion for Herdr.",
+  "author": "ArtMoreno",
+  "main": "desktop/main.mjs"
 }
-

@@ -1,4 +1,5 @@
 import net from 'node:net';
+import {homedir} from 'node:os';
 import { execFile } from 'node:child_process';
 import { promisify } from 'node:util';
 import { randomUUID } from 'node:crypto';
@@ -46,7 +47,9 @@ export function agentControls(pane, ansi) {
 
 export async function herdrBinary() {
   const installed=process.env.LOCALAPPDATA&&join(process.env.LOCALAPPDATA,'Programs','Herdr','bin','herdr.exe');
-  return process.env.HERDR_MOBILE_BIN || (installed&&await access(installed).then(()=>true,()=>false)?installed:'herdr');
+  if(process.env.HERDR_MOBILE_BIN) return process.env.HERDR_MOBILE_BIN;
+  for(const path of [installed, join(homedir(),'.local','bin','herdr'), '/opt/homebrew/bin/herdr', '/usr/local/bin/herdr']) if(path&&await access(path).then(()=>true,()=>false)) return path;
+  return 'herdr';
 }
 export async function discover(session = 'default') {
   if (!/^[a-zA-Z0-9_-]{1,80}$/.test(session)) throw new Error('Invalid Herdr session name');

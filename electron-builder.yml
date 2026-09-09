@@ -1,0 +1,36 @@
+appId: app.shep.desktop
+productName: Shep
+asar: false
+directories:
+  output: dist
+files:
+  - '*.mjs'
+  - '!*.test.mjs'
+  - 'desktop/**'
+  - '!desktop/*.test.mjs'
+  - 'public/**'
+  - 'licenses/**'
+  - 'THIRD-PARTY-NOTICES.md'
+  - 'terminal-mouse.py'
+  - 'package.json'
+win:
+  target: nsis
+  icon: public/assets/herdr-icon-512.png
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  deleteAppDataOnUninstall: false
+mac:
+  target: [dmg, zip]
+  icon: public/assets/herdr-icon-512.png
+  category: public.app-category.developer-tools
+linux:
+  target: [AppImage, deb]
+  icon: public/assets/herdr-icon-512.png
+  category: Development
+publish:
+  provider: github
+  owner: ArtMoreno
+  repo: shep
