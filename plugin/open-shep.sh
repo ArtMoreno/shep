@@ -1,6 +1,6 @@
 #!/bin/sh
 set -eu
-release='https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview'
+release='https://github.com/ArtMoreno/shep/releases'
 case "${1:-}" in
   macos)
     if [ "${2:-}" = '--check' ]; then command -v open >/dev/null; exit; fi

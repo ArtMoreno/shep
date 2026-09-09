@@ -38,11 +38,11 @@ id = "download-macos"
 title = "Install or update Shep"
 contexts = ["workspace"]
 platforms = ["macos"]
-command = ["open", "https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview"]
+command = ["open", "https://github.com/ArtMoreno/shep/releases"]
 
 [[actions]]
 id = "download-linux"
 title = "Install or update Shep"
 contexts = ["workspace"]
 platforms = ["linux"]
-command = ["xdg-open", "https://github.com/ArtMoreno/shep/releases/tag/v0.2.0-preview"]
+command = ["xdg-open", "https://github.com/ArtMoreno/shep/releases"]
