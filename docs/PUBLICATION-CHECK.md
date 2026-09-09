@@ -28,4 +28,5 @@ Provider icons were moved from ignored references into public/brands so source a
 - The 77-test app suite and four desktop setup/security tests pass locally.
 - Native workflow 34390985264 rebuilds Windows x64, Intel Mac, Apple Silicon Mac, and Linux x64; it checks source/packaged setup windows, bundled provider assets, MIT notice, and exclusion of private build directories.
 - The Herdr companion manifest was accepted by Herdr 0.9.0 through a disabled temporary link; the registration was removed after validation. It opens setup/downloads and does not install silently or configure the network.
+- Managed GitHub plugin installation passed in an isolated configuration directory. The existing Windows configuration returned error 183 before download; the plugin README includes the tested local-link fallback. Marketplace catalog discovery is separate from direct installation.
 - Download hashes are provided in SHA256SUMS.txt. Windows code signing and macOS notarization remain absent; this is a preview, not a signed stable release. Real-device testing limits remain in the README and website.

@@ -13,3 +13,12 @@ The plugin does not silently install software, configure your network, approve t
 Windows supports the default per-user or Program Files install location. A custom install can be opened from its desktop shortcut. On macOS, place Shep in Applications. On Linux, install the DEB or put a `shep` launcher for your AppImage on PATH. Linux also needs `xdg-open` for download links.
 
 The public Herdr catalog updates independently of GitHub Releases. A direct plugin install can work before its marketplace listing appears.
+
+If Herdr's managed installer fails, clone this repository into a folder you want to keep, then link it while Herdr is running:
+
+```sh
+git clone https://github.com/ArtMoreno/shep.git
+herdr plugin link ./shep
+```
+
+This fallback was checked on Windows with Herdr 0.9.0. The managed GitHub install also passed with a clean configuration directory; the existing Windows configuration returned error 183. Linking avoids that download-directory failure.
