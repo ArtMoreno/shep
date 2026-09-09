@@ -1,0 +1,2 @@
+// A one-time welcome in a newly created empty Mac shell, never an agent overlay.
+export const macWelcomeCommand="printf '\\033[2J\\033[H\\033[38;5;71m           ,--.\\n          /  /\\n\\033[38;5;220m     .---./ /---.\\n    /            \\\\\\n\\033[38;5;208m   /          .--\\n  |          (\\n\\033[38;5;196m  |           `--\\n   \\\\            /\\n\\033[38;5;134m    \\\\          /\\n\\033[38;5;39m     `--.___.--`\\n\\033[0m\\n  iMac · Connected via SSH\\n  Your Mac terminal is ready.\\n\\n'";

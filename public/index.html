@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,interactive-widget=resizes-content">
+  <meta name="theme-color" content="#170a1f">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-title" content="Shep">
+  <title>Shep</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=shep-flock-1">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/herdr-icon-32.png?v=shep-flock-1">
+  <link rel="icon" type="image/svg+xml" href="/assets/herdr-icon.svg?v=shep-flock-1">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/xterm.css">
+  <link rel="stylesheet" href="/style.css">
+  <script src="/xterm.js" defer></script>
+  <script src="/app.js" defer></script>
+  <script src="/launch.js" defer></script>
+  <script src="/qol.js" defer></script>
+  <script src="/extras.js" defer></script>
+  <script src="/voice.js" defer></script>
+  <script src="/teams.js" defer></script>
+  <script src="/drawer.js" defer></script>
+</head>
+<body>
+  <div id="app">
+    <header class="app-header">
+      <button id="appearance-open" aria-label="Appearance settings" title="Background and appearance"><img class="herdr-mark" src="/assets/herdr-icon-32.png?v=shep-flock-1" alt="" width="24" height="24">Shep<span class="icon" style="--icon:url('/assets/adjustments-horizontal.svg')"></span></button>
+      <button id="workspace" title="Show sessions">D:\</button>
+      <button id="new-open" disabled><span class="icon" style="--icon:url('/assets/plus.svg')"></span>New</button>
+    </header>
+    <div id="offline-banner" role="status" hidden><span>Connection unavailable. Check your PC and Tailscale.</span><button id="offline-reconnect">Reconnect</button></div>
+    <main id="surface">
+      <button id="mac-machine-badge" type="button" aria-label="iMac connection settings"><img src="/assets/rainbow-apple.svg" alt="" width="22" height="25"><span>iMac · SSH</span></button>
+      <div id="wallpaper" aria-hidden="true"></div>
+      <section id="focused" class="terminal-pane" aria-label="Focused terminal">
+        <span class="ghostty-traffic" aria-hidden="true"><i></i><i></i><i></i></span>
+        <button id="pane-picker" class="pane-title" title="Choose a terminal">Connecting…</button>
+        <div class="pane-tools">
+          <button id="terminal-options-open" class="icon-button" aria-label="Terminal view and keys"><span class="icon" style="--icon:url('/assets/keyboard.svg')"></span></button>
+          <button id="all-panes"><span class="icon" style="--icon:url('/assets/arrow-left.svg')"></span>All panes</button>
+        </div>
+        <div id="viewport" tabindex="0" aria-label="Live terminal. Scroll up or down to read."><div id="message-feed" aria-label="Messages from loaded terminal output" hidden></div><div id="terminal-stage"><div id="terminal" aria-label="Live Shep terminal"></div></div></div>
+        <div id="input-area">
+          <button id="reasoning-peek" data-control="reasoning" hidden></button>
+          <section id="voice-panel" aria-label="Voice dictation" hidden><div class="voice-heading"><strong id="voice-state" role="status">Listening</strong><span id="voice-time">00:00</span></div><canvas id="voice-wave" width="640" height="120" aria-label="Microphone audio level" role="img"></canvas><p id="voice-text">Listening…</p><div class="voice-actions"><button id="voice-cancel">Cancel</button><button id="voice-stop">■ Stop dictation</button></div><p id="voice-help">Stop to review. Nothing sends automatically.</p></section>
+          <div id="focused-status" class="preview-footer" role="img" aria-label="Native model and status" hidden></div>
+          <div class="chat-utilities"><button id="chat-search-open">Search</button><button id="chat-copy-open">Copy</button><button id="dictate" aria-label="Dictate message"><!--
+tags: [record, sound, listen, microphone, content, entertainment, multimedia, broadcast, audio]
+category: Media
+version: "1.0"
+unicode: "eaf0"
+-->
+<svg aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M9 5a3 3 0 0 1 3 -3a3 3 0 0 1 3 3v5a3 3 0 0 1 -3 3a3 3 0 0 1 -3 -3l0 -5" />
+  <path d="M5 10a7 7 0 0 0 14 0" />
+  <path d="M8 21l8 0" />
+  <path d="M12 17l0 4" />
+</svg>
+</button><button id="camera" aria-label="Take photo"><!--
+tags: [video, photo, aperture, camera, content, entertainment, multimedia, broadcast, audio]
+category: Media
+version: "1.0"
+unicode: "ea54"
+-->
+<svg aria-hidden="true"
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="2"
+  stroke-linecap="round"
+  stroke-linejoin="round"
+>
+  <path d="M5 7h1a2 2 0 0 0 2 -2a1 1 0 0 1 1 -1h6a1 1 0 0 1 1 1a2 2 0 0 0 2 2h1a2 2 0 0 1 2 2v9a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-9a2 2 0 0 1 2 -2" />
+  <path d="M9 13a3 3 0 1 0 6 0a3 3 0 0 0 -6 0" />
+</svg>
+</button><button id="quick-open" aria-label="Quick actions">⌘</button></div><input id="camera-picker" type="file" accept="image/*" capture="environment" hidden>
+          <div id="history-tools"><button id="message-mode" hidden>Show native TUI</button><div id="message-jumps" hidden><button id="message-previous" aria-label="Previous message">↑ Message</button><button id="message-next" aria-label="Next message">↓ Message</button></div><button id="history-more" hidden>Load earlier messages</button><button id="history-latest" hidden>↓ Latest</button></div>
+          <p id="input-status" role="status" hidden></p>
+          <button id="native-zoom" hidden aria-label="Change native terminal zoom">Size · Readable</button>
+          <button id="editor-phone" hidden>Fit Neovim to phone</button>
+          <div id="native-interaction" hidden><button id="native-interact" aria-pressed="false">Control terminal</button><input id="native-type" hidden aria-label="Type directly in terminal" placeholder="Type directly…" autocomplete="off" autocapitalize="off" spellcheck="false"><span id="native-interaction-hint" hidden>Tap mouse-enabled apps · Drag to scroll · Type below or use the keys</span></div>
+          <div id="native-keys" class="keys" aria-label="Native selection controls" hidden><button data-key="up" aria-label="Previous selection">↑</button><button data-key="down" aria-label="Next selection">↓</button><button data-key="left" aria-label="Move left">←</button><button data-key="right" aria-label="Move right">→</button><button data-key="tab">Tab</button><button data-key="enter">Enter ↵</button><button data-key="esc">Esc</button><button data-key="ctrl+c">Ctrl+C</button><button data-key="pageup">PgUp</button><button data-key="pagedown">PgDn</button></div>
+          <div id="keys" class="keys" aria-label="Terminal keys" hidden>
+            <button data-key="enter">Enter</button><button data-key="esc">Esc</button><button data-key="tab">Tab</button><button data-key="backspace" aria-label="Backspace">⌫</button>
+            <button data-key="left" aria-label="Left arrow">←</button><button data-key="right" aria-label="Right arrow">→</button><button data-key="up" aria-label="Up arrow">↑</button><button data-key="down" aria-label="Down arrow">↓</button><button data-key="ctrl+c">Ctrl C</button><button id="terminal-settings-open">View</button>
+          </div>
+          <div id="attachments" aria-label="Attachments for this terminal" hidden></div>
+          <input id="attachment-picker" type="file" multiple hidden>
+          <div id="pinned-keys" class="keys" role="group" aria-label="Quick terminal keys"><button type="button" data-key="up" aria-label="Up arrow">↑</button><button type="button" data-key="down" aria-label="Down arrow">↓</button><button type="button" data-key="enter">Enter</button><button type="button" data-key="esc">Esc</button></div>
+          <form id="composer">
+            <button id="attach" type="button" class="icon-button" aria-label="Attach photos or files"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="m8 13 6.5-6.5a2.1 2.1 0 0 1 3 3L9 18a4.2 4.2 0 0 1-6-6L13 2a6.3 6.3 0 0 1 9 9L11 22" transform="translate(2 2) scale(.8)"/></svg></button>
+            <textarea id="draft" aria-label="Message the selected terminal" maxlength="8192" rows="1" enterkeyhint="send" spellcheck="false" autocapitalize="off" autocomplete="off" placeholder="Message…"></textarea>
+            <button id="send" type="submit" aria-label="Send message"><span class="icon" style="--icon:url('/assets/arrow-up.svg')"></span></button>
+          </form>
+          <div id="agent-controls" class="agent-controls" hidden>
+            <button data-control="model"><span class="control-value"><span id="model-value">Choose</span><span class="icon" style="--icon:url('/assets/chevron-down.svg')"></span></span><span class="control-label">Model</span></button>
+            <button data-control="reasoning"><span class="control-value"><span id="reasoning-value">Choose</span><span class="icon" style="--icon:url('/assets/chevron-down.svg')"></span></span><span class="control-label">🧠 Reasoning</span></button>
+            <button data-control="mode"><span class="control-value"><span id="mode-value">Choose</span><span class="icon" style="--icon:url('/assets/chevron-down.svg')"></span></span><span class="control-label">📋 Mode</span></button>
+          </div>
+        </div>
+      </section>
+      <section id="sessions" aria-label="Sessions" hidden>
+        <nav id="machine-switcher" aria-label="Computers"></nav>
+        <nav id="session-switcher" aria-label="Session tabs"></nav>
+        <div class="page-heading"><h1>Sessions</h1><span id="session-count"></span><button id="attention-open" aria-label="Attention inbox">Inbox</button><button id="layout-open" aria-label="Arrange pane layout">Layout</button><button id="empty-new" aria-label="Add pane or team" title="Add pane or team">＋</button><span id="layout-controls" hidden><button id="layout-choose">Templates</button><button id="layout-reset">Reset sizes</button><button id="layout-done">Done</button></span></div>
+        <div id="quota-ticker" hidden><button id="ticker-open" aria-label="Open live QuotaDeck usage"><span class="ticker-track"><span class="quota-list"></span><span class="quota-list" aria-hidden="true"></span></span></button><button id="ticker-close" class="icon-button" aria-label="Close QuotaDeck strip">×</button></div>
+        <div id="minimized-panes" aria-label="Minimized live sessions" hidden></div>
+        <div id="pane-grid">
+          <div id="quota-companion" class="quota-tile">
+            <span class="quota-title">QuotaDeck · companion</span>
+            <span class="quota-model muted"></span>
+            <span class="quota-list"><span class="muted">Loading quotas…</span></span>
+            <span class="quota-hint muted">Tap for reset times</span>
+            <button id="quota-open" class="preview-open" aria-label="Open QuotaDeck details"></button>
+            <button id="quota-minimize" class="icon-button quota-minimize" aria-label="Minimize QuotaDeck">−</button>
+            <button id="quota-close" class="icon-button preview-close" aria-label="Close QuotaDeck from Sessions"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button>
+          </div>
+        </div>
+        <p id="overview-hint" class="overview-hint">Tap to open · Hold for pane actions.</p>
+      </section>
+      <section id="quota-page" class="terminal-pane" aria-label="QuotaDeck" hidden>
+        <h1 class="pane-title">QuotaDeck</h1>
+        <div class="pane-tools"><button data-page="sessions">← All panes</button></div>
+        <div class="quota-scroll">
+          <p class="quota-model"></p>
+          <button id="quota-restore" hidden>Show in Sessions</button>
+          <div class="quota-list"><p class="muted">Loading quotas…</p></div>
+          <p class="quota-hint muted">Same provider settings and usage as your PC.</p>
+        </div>
+      </section>
+      <p id="connection" role="status" class="connection-message" hidden>Connecting…</p>
+    </main>
+    <nav id="tabs" aria-label="Main navigation">
+      <button data-page="sessions">Sessions</button>
+      <button data-page="terminal" aria-current="page">Terminal</button>
+      <button data-page="quota">QuotaDeck</button>
+    </nav>
+    <button id="navigation-toggle" class="icon-button" aria-label="Show navigation" aria-expanded="false" hidden><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></button>
+  </div>
+  <dialog id="layout-dialog" aria-labelledby="layout-title">
+    <div class="dialog-header"><h2 id="layout-title">Pane layout</h2><button data-close class="icon-button" aria-label="Close layout templates"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <p class="muted">Choose a shape, then drag pane headers into position. ½ means half the available pane area.</p>
+    <div id="current-layout-templates" class="layout-templates" role="group" aria-label="Current pane layout templates"></div>
+  </dialog>
+  <dialog id="appearance-dialog" aria-labelledby="appearance-title">
+    <button id="keyboard-open" type="button">Keyboard shortcuts</button>
+    <label for="machine-select">Computer</label><select id="machine-select"><option value="local">This PC</option></select>
+    <p id="machine-note" class="muted">Saved SSH machines come from Herdr on your PC.</p>
+    <div class="dialog-header"><h2 id="appearance-title">Appearance</h2><button data-close class="icon-button" aria-label="Close appearance"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <button id="diagnostics-open">Connection diagnostics</button>
+    <p class="appearance-brand"><img class="herdr-mark" src="/assets/herdr-icon-192.png?v=shep-flock-1" alt="Shep" width="32" height="32">Make Shep yours.</p>
+    <fieldset><legend>Theme</legend><div id="theme-choices" role="group" aria-label="Theme choices"></div><p class="muted">Original keeps your OG colors and PC wallpaper. Choose a theme, then mix in any wallpaper below. Terminal output keeps its native colors.</p></fieldset>
+    <label for="wallpaper-choice">Wallpaper</label><select id="wallpaper-choice"><option value="pc">Original · PC wallpaper</option><option value="none">None · solid background</option></select>
+    <div class="wallpaper-swatch" aria-label="Selected wallpaper preview"></div>
+    <p id="wallpaper-status" class="muted" role="status">Loading PC wallpaper…</p>
+    <button id="wallpaper-refresh">Refresh from PC</button>
+    <label for="navigation-bars">Top and bottom bars</label><select id="navigation-bars"><option value="auto">Auto-hide when reading or typing</option><option value="hidden">Always hidden</option><option value="visible">Always visible</option></select>
+    <p class="muted">Tap the small menu button to bring the bars back.</p>
+    <label for="text-size">Terminal text size</label><select id="text-size"><option value="12">Small</option><option value="14">Medium</option><option value="17">Large</option></select>
+    <fieldset><legend>Favorite layouts</legend><label for="favorite-name">Name this layout</label><input id="favorite-name" maxlength="40" placeholder="My layout"><button id="favorite-save">Save current layout</button><div id="favorite-list"></div><p id="favorite-status" role="status" class="muted"></p></fieldset>
+    <fieldset><legend>Completion alerts</legend><button id="notifications-enable">Enable notifications</button><button id="notifications-disable" hidden>Turn off notifications</button><p id="notifications-status" role="status" class="muted">Optional alerts when agents finish or need attention. On iPhone, open Shep from your Home Screen first.</p></fieldset>
+    <fieldset class="layout-picker"><legend>Pane layouts</legend>
+      <p class="muted">Save a layout for each pane count. It switches automatically as sessions open or close.</p>
+      <div class="layout-count" role="group" aria-label="Choose pane count"><button type="button" data-layout-count="1">1 pane</button><button type="button" data-layout-count="2">2 panes</button><button type="button" data-layout-count="3">3 panes</button><button type="button" data-layout-count="4">4 panes</button></div>
+      <div id="layout-templates" class="layout-templates" role="group" aria-label="Pane layout templates"></div>
+      <p class="muted">Drag pane headers in Layout to choose which session fills each position.</p>
+    </fieldset>
+    <label for="quota-placement">QuotaDeck in Sessions</label><select id="quota-placement"><option value="open">Companion pane</option><option value="top">Scrolling strip · top</option><option value="bottom">Scrolling strip · bottom</option><option value="minimized">Minimized pane</option><option value="hidden">Hidden</option></select>
+    <p class="muted">QuotaDeck is optional. Use a pane, a scrolling strip, or Hidden. Layouts use the space left available.</p>
+    <label class="range-label" for="pane-opacity">Pane opacity <output id="opacity-value">87%</output></label>
+    <input id="pane-opacity" type="range" min="0" max="100" value="87">
+    <label class="range-label" for="purple-tint">Purple tint · OG only <output id="tint-value">30%</output></label>
+    <input id="purple-tint" type="range" min="0" max="100" value="30">
+    <div class="dialog-actions"><button id="appearance-reset">Reset appearance</button></div>
+    <p id="preference-status" class="muted" role="status">Saved on this device.</p>
+  </dialog>
+  <dialog id="terminal-options-dialog" aria-labelledby="terminal-options-title">
+    <div class="dialog-header"><h2 id="terminal-options-title">Terminal</h2><button data-close class="icon-button" aria-label="Close terminal options"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <label for="pane">Live pane</label><select id="pane" aria-label="Terminal pane"></select>
+    <label for="view">View</label><select id="view" aria-label="Terminal view"><option value="wrap">Phone width</option><option value="fit">Original layout · fit</option></select>
+    <div class="dialog-actions"><button id="write">Write without Enter</button><button id="reconnect">Reconnect</button></div>
+    <p id="identity" class="muted"></p><p id="frame-info" class="muted"></p>
+    <details><summary>Terminal text for accessibility</summary><pre id="transcript"></pre></details>
+  </dialog>
+  <dialog id="shortcut-dialog" aria-labelledby="shortcut-title">
+    <div class="dialog-header"><h2 id="shortcut-title">Agent controls</h2><button data-close class="icon-button" aria-label="Close agent controls"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <p id="shortcut-description"></p><p class="muted">The native menu opens in your shared terminal. Finish any existing terminal draft first.</p>
+    <button id="shortcut-open" class="primary">Open in terminal</button><p id="shortcut-status" role="status" class="muted"></p>
+  </dialog>
+  <dialog id="pane-actions-dialog" aria-labelledby="pane-actions-title">
+    <div class="dialog-header"><h2 id="pane-actions-title">Pane actions</h2><button data-close class="icon-button" aria-label="Close pane actions"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <div class="pane-actions">
+      <button id="pane-actions-move-left">Move tab left</button>
+      <button id="pane-actions-move-right">Move tab right</button>
+      <button id="pane-actions-rename">Rename session</button>
+      <button id="pane-actions-minimize" hidden>Minimize QuotaDeck</button>
+      <button id="pane-actions-close">Close this pane</button>
+      <details><summary>More actions</summary>
+        <button id="pane-actions-open">Open terminal</button>
+        <button id="pane-actions-arrange">Arrange panes</button>
+        <button id="pane-actions-new">New pane right</button>
+        <button id="pane-actions-new-left">New pane left</button>
+      </details>
+    </div>
+  </dialog>
+  <dialog id="close-pane-dialog" aria-labelledby="close-pane-title" aria-describedby="close-pane-description">
+    <div class="dialog-header"><h2 id="close-pane-title">Close pane?</h2></div>
+    <p id="close-pane-description"></p><p id="close-pane-status" role="status"></p>
+    <div class="dialog-actions"><button data-close autofocus>Cancel</button><button id="close-pane-confirm">Close pane</button></div>
+  </dialog>
+  <dialog id="rename-dialog" aria-labelledby="rename-title"><div class="dialog-header"><h2 id="rename-title">Rename session</h2><button data-close aria-label="Close rename">×</button></div><form id="rename-form"><label for="session-name">Name on this device</label><input id="session-name" maxlength="40" placeholder="Use provider name"><button type="submit">Save name</button><p class="muted">Leave blank to restore the provider name.</p></form></dialog>
+  <dialog id="attachment-preview-dialog" aria-labelledby="attachment-preview-name"><div class="dialog-header"><h2 id="attachment-preview-name">Attachment</h2><button data-close aria-label="Close attachment preview">×</button></div><img id="attachment-preview-image" alt="Selected attachment"><p id="attachment-preview-info" class="muted"></p></dialog>
+  <dialog id="quick-pane-dialog" aria-labelledby="quick-pane-title"><div class="dialog-header"><h2 id="quick-pane-title">Add panes</h2><button data-close aria-label="Close add pane">×</button></div><p>Empty terminal</p><div class="keys"><button id="quick-pane-current">Current window</button><button id="quick-pane-window">New window</button></div><p class="muted">A plain terminal in the current folder. Run any command or agent yourself.</p><div class="quick-launch-options"><button id="quick-independent">Independent panes</button><button id="quick-team">Orchestrated team</button></div><p id="quick-pane-status" role="status"></p><button id="quick-pane-recovery" hidden>Review launch</button></dialog>
+  <dialog id="new-dialog" aria-labelledby="new-title">
+    <div class="dialog-header"><h2 id="new-title">New session</h2><button data-close class="icon-button" aria-label="Close new session"><span class="icon" style="--icon:url('/assets/x.svg')"></span></button></div>
+    <form id="new-form">
+      <button type="button" id="independent-open">Multiple panes…</button><button type="button" id="team-open">Orchestrated team…</button>
+      <fieldset id="new-fields" disabled>
+        <label for="session-preset">Session preset</label><select id="session-preset"><option value="">Choose a saved preset</option></select><div class="preset-save"><input id="preset-name" maxlength="40" placeholder="Preset name" aria-label="Preset name"><button type="button" id="preset-save">Save</button><button type="button" id="preset-delete">Delete</button></div>
+        <label for="new-agent">Agent</label>
+        <div class="new-agent-picker"><img id="new-brand" alt="" width="28" height="28" hidden><select id="new-agent" required><option value="">Loading agents…</option></select></div>
+        <label for="new-name">Pane name (optional)</label><input id="new-name" maxlength="40" placeholder="Frontend, Tests, Research…">
+        <label for="new-folder">Working folder</label>
+        <input id="new-folder" list="new-folders" required maxlength="1024" autocapitalize="off" autocomplete="off" spellcheck="false"><datalist id="new-folders"></datalist>
+        <fieldset class="new-destination"><legend>Desktop terminal</legend>
+          <label><input type="radio" name="destination" value="tab" checked><span>Full tab</span></label>
+          <label><input type="radio" name="destination" value="pane"><span>Split</span></label>
+          <label><input type="radio" name="destination" value="workspace"><span>Workspace</span></label>
+        </fieldset>
+        <p class="muted">Full tabs keep native TUIs readable. Your phone still uses its selected pane layout.</p>
+        <div id="new-placement" class="new-placement">
+          <label>Beside<select id="new-beside" aria-label="Beside"></select></label>
+          <label>Direction<select id="new-direction" aria-label="Direction"><option value="right">Right</option><option value="left">Left</option><option value="down">Down</option></select></label>
+        </div>
+        <div class="new-controls">
+          <label><input id="new-model" list="new-models" placeholder="Default" maxlength="160" autocapitalize="off" autocomplete="off" spellcheck="false" aria-label="New session model"><datalist id="new-models"></datalist><span>🧠 Model</span></label>
+          <label id="new-effort-label"><select id="new-effort" aria-label="New session reasoning"></select><span>💭 Reasoning</span></label>
+          <label id="new-mode-label"><select id="new-mode" aria-label="New session mode"></select><span>📋 Mode</span></label>
+        </div>
+        <label for="new-message">First message <span>(optional)</span></label>
+        <textarea id="new-message" rows="3" maxlength="8192" placeholder="What should we work on?"></textarea>
+      </fieldset>
+      <p id="new-status" class="muted" role="status">Loading installed agents…</p>
+      <div class="new-actions"><button type="button" data-close>Cancel</button><button id="new-submit" type="submit" class="primary" disabled>Open agent</button></div>
+      <div id="new-recovery" class="dialog-actions" hidden><button id="new-inspect" type="button">Check sessions</button><button id="new-edit" type="button">Back to form</button></div>
+    </form>
+  </dialog>
+<dialog id="search-dialog" aria-label="Search chat"><div class="dialog-header"><h2>Search chat</h2><button data-close aria-label="Close Search chat">×</button></div><label for="chat-search">Search loaded history</label><input id="chat-search" type="search"><p id="search-status" role="status"></p><button id="search-older">Load more history</button><div id="search-results"></div></dialog>
+<dialog id="copy-dialog" aria-label="Copy response"><div class="dialog-header"><h2>Copy response</h2><button data-close aria-label="Close Copy response">×</button></div><label for="copy-choice">Response</label><select id="copy-choice"></select><textarea id="copy-text" readonly rows="10" aria-label="Response text"></textarea><button id="copy-confirm">Copy text</button><p id="copy-status" role="status"></p></dialog>
+<dialog id="attention-dialog" aria-label="Attention inbox"><div class="dialog-header"><h2>Attention inbox</h2><button data-close aria-label="Close Attention inbox">×</button></div><div id="attention-list"></div></dialog>
+<dialog id="quick-dialog" aria-label="Quick actions"><div class="dialog-header"><h2>Quick actions</h2><button data-close aria-label="Close Quick actions">×</button></div><div class="keys"><button id="snippets-open">Saved snippets</button><button id="links-open">Links</button></div><div id="quick-buttons" class="keys"></div><label for="quick-choice">Add a button</label><select id="quick-choice"><option value="esc">Escape</option><option value="tab">Tab</option><option value="ctrl+c">Ctrl+C · interrupt</option><option value="enter">Enter</option><option value="up">Up</option><option value="down">Down</option><option value="/help">/help</option><option value="/model">/model</option><option value="/status">/status</option><option value="/compact">/compact</option></select><button id="quick-add">Add</button><button id="quick-reset">Reset buttons</button><p class="muted">Commands are placed in your draft for review. Ctrl+C interrupts the active agent.</p></dialog>
+<dialog id="diagnostics-dialog" aria-label="Connection diagnostics"><div class="dialog-header"><h2>Connection diagnostics</h2><button data-close aria-label="Close Connection diagnostics">×</button></div><p id="diagnostics-results" role="status"></p><button id="diagnostics-retry">Check again</button><p class="muted">Automatic startup runs after Windows sign-in and waits for Herdr. Your PC must stay awake.</p></dialog>
+<dialog id="team-dialog" aria-label="Start a team"><div class="dialog-header"><h2>Start a team</h2><button data-close aria-label="Close team setup">×</button></div><form id="team-form">
+<label for="session-kind">Session type</label><select id="session-kind"><option value="independent">Independent panes · I manage them</option><option value="orchestrated">Orchestrated team · agent manages workers</option></select>
+<label for="team-folder">Git project folder</label><input id="team-folder" required maxlength="1024" autocapitalize="off" spellcheck="false">
+<label for="team-checkout">Orchestrator checkout</label><select id="team-checkout"><option value="worktree">New worktree</option><option value="current">Current checkout · review only</option></select>
+<label for="team-branch">Team branch prefix</label><input id="team-branch" required maxlength="70" placeholder="mobile/my-task" autocapitalize="off" spellcheck="false">
+<label for="team-count">Team size</label><select id="team-count"><option value="2">Orchestrator + 1 worker</option><option value="3">Orchestrator + 2 workers</option><option value="4">Orchestrator + 3 workers</option><option value="1">Orchestrator only</option></select>
+<div id="team-members"></div><label for="team-layout">Phone layout</label><select id="team-layout"></select>
+<label for="team-task">What should the team do?</label><textarea id="team-task" rows="4" maxlength="3000" required></textarea>
+<p class="muted" id="team-explanation">Each worker gets a separate worktree. The orchestrator delegates and reviews; it asks before merging. Blocked approvals stay yours. Files survive closing panes.</p>
+<button id="team-submit" type="submit" class="primary">Start team</button><p id="team-status" role="status"></p></form></dialog>
+<dialog id="teams-dialog" aria-label="Recent launches"><div class="dialog-header"><h2>Recent launches</h2><button data-close aria-label="Close recent launches">×</button></div><div id="team-list"></div><button id="teams-refresh">Refresh</button></dialog>
+<dialog id="approval-dialog" aria-label="Agent needs approval"><div class="dialog-header"><h2>Needs your approval</h2><button data-close aria-label="Close approval">×</button></div><pre id="approval-text"></pre><p class="muted">Read the native choices. Arrow keys select; Enter confirms your selection. Nothing is approved automatically.</p><div class="keys"><button data-approval-key="up">↑</button><button data-approval-key="down">↓</button><button data-approval-key="enter">Enter ↵</button><button data-approval-key="esc">Esc</button></div><button id="approval-open">Open full terminal</button><p id="approval-status" role="status"></p></dialog>
+<dialog id="snippets-dialog" aria-label="Saved snippets"><div class="dialog-header"><h2>Saved snippets</h2><button data-close aria-label="Close snippets">×</button></div><label for="snippet-search">Find a snippet</label><input id="snippet-search" type="search" placeholder="Search snippets"><div id="snippet-list"></div><form id="snippet-form"><label for="snippet-title">Name (optional)</label><input id="snippet-title" maxlength="80"><label for="snippet-body">Prompt text</label><textarea id="snippet-body" rows="4" maxlength="4000" required></textarea><div class="keys"><button type="submit">Save snippet</button><button id="snippet-new" type="button">New</button><button id="snippet-delete" type="button" hidden>Delete</button></div></form><p id="snippet-status" role="status"></p><p class="muted">Stored on this device. Inserting adds to your draft without sending.</p></dialog>
+<dialog id="links-dialog" aria-label="Terminal links"><div class="dialog-header"><h2>Terminal links</h2><button data-close aria-label="Close links">×</button></div><div id="link-list"></div><p id="link-status" role="status"></p></dialog>
+<dialog id="keyboard-dialog" aria-labelledby="keyboard-title">
+  <div class="dialog-header"><h2 id="keyboard-title">Keyboard shortcuts</h2><button data-close aria-label="Close keyboard shortcuts">×</button></div>
+  <form id="keyboard-form">
+    <label><input id="keyboard-enabled" type="checkbox"> Enable app shortcuts</label>
+    <label for="keyboard-modifier">Hold these keys</label>
+    <select id="keyboard-modifier"><option value="control">Control + Shift</option><option value="command">Command + Shift</option><option value="option">Control + Option / Alt</option></select>
+    <p class="muted">Add the key below. If your browser reserves a combination, change it here. Saved on this device.</p>
+    <div id="keyboard-bindings"></div>
+    <p class="muted">Control terminal directly forwards typing, arrows, Enter, Escape, Tab, Backspace, Page Up / Down and Ctrl+C. Focus message draft to return to composing. Other modified terminal keys are not supported.</p>
+    <p id="keyboard-status" role="status"></p>
+    <div class="dialog-actions"><button id="keyboard-reset" type="button">Reset defaults</button><button type="submit">Save shortcuts</button></div>
+  </form>
+</dialog>
+</body>
+</html>
+
+
+
+
+
