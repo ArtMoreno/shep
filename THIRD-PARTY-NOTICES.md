@@ -17,3 +17,7 @@ Changes: browser localStorage instead of UserDefaults; JavaScript UTF-16 length 
 
 ## JetBrains Mono
 Ghostty theme embeds unmodified JetBrains Mono Regular WOFF2 from https://github.com/JetBrains/JetBrainsMono, copyright 2020 The JetBrains Mono Project Authors, under SIL OFL 1.1. Full copyright and license: licenses/JetBrainsMono-OFL.txt. The font is loaded locally only for the Ghostty theme. Ghostty appearance reference: https://ghostty.org/docs/config/reference and ghostty-org/ghostty src/config/Config.zig (default background #282c34, foreground white, transparent macOS titlebar). This is a Herdr web adaptation, not the native Ghostty application.
+
+## Herdr logo
+
+The website uses the unmodified Herdr logo from https://github.com/herdrdev/herdr/blob/master/assets/logo.svg to identify the terminal application Shep connects to. Original artwork belongs to the Herdr contributors; the source repository is licensed under Apache 2.0 (reproduced in licenses/Heeler-Apache-2.0.txt). Herdr is a separate project; this credit does not imply endorsement.

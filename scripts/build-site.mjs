@@ -7,6 +7,7 @@ for(const name of ['index.html','style.css'])await copyFile('site/'+name,join(ou
 for(const name of ['shep-logo.png','chat.png','sessions.png','controls.png','attention.png','video-poster.jpg'])await copyFile('docs/images/'+name,join(out,'assets',name));
 await copyFile('docs/video/shep-demo.mp4',join(out,'assets/shep-demo.mp4'));
 await copyFile('site/demo.vtt',join(out,'assets/demo.vtt'));
+await copyFile('site/herdr-logo.svg',join(out,'assets/herdr-logo.svg'));
 await writeFile(join(out,'.nojekyll'),'');
-await writeFile(join(out,'notices.txt'),await readFile('THIRD-PARTY-NOTICES.md','utf8'));
+await writeFile(join(out,'notices.txt'),await readFile('THIRD-PARTY-NOTICES.md','utf8')+'\n\n'+await readFile('licenses/Heeler-Apache-2.0.txt','utf8'));
 console.log('Static site prepared in .local/site-dist. Only the listed site and media files are copied.');
