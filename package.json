@@ -26,5 +26,6 @@
   "productName": "Shep",
   "description": "Your terminals. Within reach. A desktop companion for Herdr.",
   "author": "ArtMoreno",
-  "main": "desktop/main.mjs"
+  "main": "desktop/main.mjs",
+  "license": "MIT"
 }

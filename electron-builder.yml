@@ -10,6 +10,7 @@ files:
   - '!desktop/*.test.mjs'
   - 'public/**'
   - 'licenses/**'
+  - 'LICENSE'
   - 'THIRD-PARTY-NOTICES.md'
   - 'terminal-mouse.py'
   - 'package.json'
