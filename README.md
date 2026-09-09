@@ -3,7 +3,7 @@
 <p align="center"><strong>Your terminals. Within reach.</strong><br>A phone-friendly companion for Herdr.</p>
 <p align="center">Live panes · Agent attention · Windows + SSH · Your own machine</p>
 
-<p align="center"><a href="docs/video/shep-demo.mp4">▶ Watch the demo</a> · <a href="#run-locally">Run locally</a> · <a href="#what-to-expect">Current limits</a></p>
+<p align="center"><a href="https://github.com/ArtMoreno/shep/releases">Download desktop preview</a> · <a href="docs/video/shep-demo.mp4">▶ Watch the demo</a> · <a href="#run-locally">Run locally</a> · <a href="#what-to-expect">Current limits</a></p>
 
 ---
 
