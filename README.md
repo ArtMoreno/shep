@@ -1,109 +1,60 @@
-<p align="center"><img src="docs/images/shep-logo.png" width="96" alt="Shep logo"></p>
+<p align="center"><img src="docs/images/shep-logo.png" width="88" alt="Shep logo"></p>
 <h1 align="center">Shep</h1>
-<p align="center"><strong>Your terminals. Within reach.</strong><br>A phone-friendly companion for Herdr.</p>
-<p align="center">Live panes · Agent attention · Windows + SSH · Your own machine</p>
 
-<p align="center"><a href="https://github.com/ArtMoreno/shep/releases">Download desktop preview</a> · <a href="docs/video/shep-demo.mp4">▶ Watch the demo</a> · <a href="#run-locally">Run locally</a> · <a href="#what-to-expect">Current limits</a></p>
+Open your Herdr terminals from your phone. Read an agent’s response, send the next instruction, or switch to another pane. Your sessions stay on your computer.
 
----
+[Watch the demo](docs/video/shep-demo.mp4) · [Desktop preview](https://github.com/ArtMoreno/shep/releases) · [Developer setup](docs/DEVELOPMENT.md)
 
-[![Watch the Shep demo](docs/images/demo-preview.gif)](docs/video/shep-demo.mp4)
+[![Watch Shep in use](docs/images/demo-preview.gif)](docs/video/shep-demo.mp4)
 
-## A workspace that goes with you
+The video records the real interface with sample sessions. It shows pane switching, controls, drafting, and the inbox. Sample model output is fictional; the recording sends no prompts to a provider.
 
-Check what your agents are doing, open the pane that needs you, and send the next instruction from your phone. Shep connects to your running Herdr session through a local Node bridge.
+<table><tr><td><img src="docs/images/sessions.png" width="260" alt="Sample sessions in the pane grid"></td><td><img src="docs/images/chat.png" width="260" alt="A full-screen sample chat"></td><td><img src="docs/images/controls.png" width="260" alt="The session controls drawer"></td></tr></table>
 
-<table><tr><td><img src="docs/images/sessions.png" width="270" alt="Shep Sessions showing three demo agent panes"></td><td><img src="docs/images/chat.png" width="270" alt="Expanded Codex demo chat"></td><td><img src="docs/images/controls.png" width="270" alt="Expanded session controls"></td></tr><tr><td align="center">See the workspace</td><td align="center">Focus on one pane</td><td align="center">Keep controls close</td></tr></table>
+## Install
 
-**Demo disclosure:** Screenshots and the video use the real Shep frontend with an isolated, read-only demo backend. Tasks, model labels, statuses, and results are fictional examples, not live agent runs or benchmark results. No personal chats or credentials are shown. The video is a captioned screenshot walkthrough.
+The installers are in private preview and are unsigned. Public downloads are not available yet. You’ll need [Herdr](https://github.com/ogulcancelik/herdr), [Tailscale](https://tailscale.com/download), and a computer that stays awake. Sign in to your agent tools on that computer as usual.
 
-## What is inside
+| Computer | Installer |
+| --- | --- |
+| Windows x64 | Setup EXE |
+| Mac with Apple Silicon, macOS 13+ | ARM64 DMG |
+| Intel Mac, macOS 13+ | Intel DMG |
+| Linux x64 | DEB or AppImage |
 
-- **Live Sessions:** pane layouts, quick switching, minimize/restore, and local names.
-- **Terminal access:** direct typing, navigation keys, search, copying, and available history.
-- **Agent workflows:** independent sessions, presets, and optional pane orchestration.
-- **Attention:** an inbox and Web Push alerts for completion or human attention.
-- **More than one computer:** Windows and saved Herdr SSH machines, with separate UI preferences and drafts.
-- **Make it yours:** the original lime-and-purple look, Silver macOS, Ghostty-inspired variants, and other built-in themes.
-- **Phone input:** reviewed dictation, photo attachments, and hardware keyboard shortcuts where supported.
+1. Install Shep and open Herdr. In Shep, select **Start Shep**. Keep the session name as `default` unless you use another one.
+2. Install Tailscale on your computer and phone. Sign in to the same account on both.
+3. In Shep, select **Set up phone access**. Follow any HTTPS or Tailscale permission prompt, then retry.
+4. Select **Create pairing QR** and scan it with your phone. The code expires after five minutes and can be used once.
+5. Add Shep to your Home Screen: **Share → Add to Home Screen** in Safari on iPhone, or **Install app** in Chrome on Android.
 
-## Desktop installers (preview)
+You can enable startup at sign-in in desktop setup. Closing the window leaves Shep in the tray; choose **Quit Shep** to stop it. Revoke a paired phone from the device list. On Linux, keep the AppImage in a permanent folder before enabling startup.
 
-Shep now includes a desktop setup wizard for Windows, macOS, and Linux. It bundles its Node runtime: users do not need Git, npm, or an AI coding assistant.
+## If it won’t connect
 
-1. Download the installer for your computer from **GitHub Releases**, once a preview release is published. CI build artifacts are available to repository collaborators while the repository is private.
-2. Install and open Shep. Open Herdr, then choose **Start Shep**.
-3. Install Tailscale on the computer and phone, sign into the same account, and choose **Set up phone access**. Enable HTTPS in the Tailscale admin console if prompted.
-4. Choose **Create pairing QR**, scan it, and add Shep to the phone's Home Screen. Each code lasts five minutes and is single-use. Pair additional devices separately; revoke them in desktop setup.
-5. Optionally enable **Start Shep when I sign in**. Keep the host awake. The tray menu opens setup or quits the bridge.
+- **Herdr isn’t found:** open Herdr, check the session name, or use **Locate Herdr CLI**.
+- **Tailscale isn’t connected:** check that both devices are signed in to the same account.
+- **HTTPS or permission error:** enable HTTPS in Tailscale and grant the permissions requested by its client. Linux may need an administrator to authorize the Tailscale command.
+- **Port 8443 is in use:** Shep leaves the other application’s route alone. Resolve that conflict in Tailscale before retrying.
+- **Phone loses connection:** make sure the host is awake and Shep, Herdr, and Tailscale are still running.
 
-Shep reserves private HTTPS port 8443 and refuses to replace another application's route. It never enables public Tailscale Funnel. Setup may require a Tailscale permission step; it does not silently elevate or change account access policies. Tailscale enrollment remains a user sign-in step.
+## Preview limits
 
-Settings, pairing hashes, and push credentials live in Electron's per-user application-data directory, separate from installed files. The installer preserves them during updates/uninstall. Uninstall Tailscale routes separately if you stop using them. No provider credentials ship with the installer.
+- Windows terminal touch input also needs Python. The terminal mouse and Neovim sizing helpers currently require the Windows bridge.
+- SSH supports reading, launching, and keyboard input. Remote mouse input, file transfers, and teams are not implemented.
+- Earlier output depends on the terminal app. Some full-screen programs do not retain scrollback.
+- iPhone notifications need Home Screen installation and permission. Real phone pairing and push delivery still need device testing.
+- Linux tray and AppImage support vary by desktop and distribution. Prefer the DEB on supported Debian/Ubuntu desktops.
+- Windows signing and macOS signing/notarization are still needed before broad distribution. Private preview updates use manual downloads.
 
-| Platform | Package | Preview limits |
-| --- | --- | --- |
-| Windows | Setup EXE, per-user install | Direct terminal mouse helper additionally requires Python |
-| macOS 13+ | Intel / Apple Silicon DMG and ZIP | Native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
-| Linux | AppImage and DEB | Desktop tray support varies; native keyboard/read bridge; Windows mouse/Neovim helper unavailable |
+Setup/security checks and packaged-window tests passed on Windows, Linux, Intel Mac, and Apple Silicon. The Windows run also passed the existing 76-test suite. [See the build results](https://github.com/ArtMoreno/shep/actions/runs/34380422306).
 
-Preview packages are unsigned. Public distribution needs Windows code signing and macOS signing/notarization. macOS Intel and Apple Silicon need separate matching builds. Linux AppImage updates are supported by the updater; DEB users should install the newer package. Private GitHub repositories use manual downloads: no GitHub credential is bundled into the app. **Check for updates** can use public GitHub release metadata after publication, with explicit download/restart confirmation.
+## Privacy
 
-### Build and check installers
+Settings, pairing credentials, uploads, and push subscriptions stay in the local application-data folder. Installers preserve that folder during updates and uninstall. If you stop using Shep, remove its Tailscale route separately.
 
-```sh
-npm ci
-npm run test:desktop
-npm run test:window
-npm run dist -- --publish never
-```
+The repository and installer build exclude local configuration, keys, chats, attachments, logs, personal wallpapers, and worktrees. The website publishes an explicit list of page and demo files. Its media uses sample content.
 
-Build on the target operating system. For Linux headless window checks use `xvfb-run -a npm run test:window`. The GitHub Actions desktop workflow tests the setup/security logic, opens the setup window with isolated data, and builds native artifacts on Windows, macOS, and Linux. It does not publish a release or change repository visibility.
+Revoking a phone blocks future terminal requests and push sends to that device. A notification already sent to a push service may still arrive.
 
-The window smoke check verifies renderer-to-main IPC and the bundled runtime, and captures a local screenshot. Pairing/route tests use disposable configurations. These checks do not establish real iPhone notification delivery or complete Herdr compatibility on every operating system.
-
-## Run locally
-
-Requirements for source development: Node.js 24+, installed Herdr, and a running Herdr session. The installer bundles Node; the commands below are for developers.
-
-```sh
-npm ci
-npm test
-npm start
-```
-
-Open **http://127.0.0.1:4317** on the bridge computer. Phone access requires a private HTTPS route to that computer; localhost on your phone is not your PC. The app has a Home Screen manifest for supported mobile browsers.
-
-Configuration uses `HERDR_MOBILE_SESSION`, `HERDR_MOBILE_WORKSPACE`, `HERDR_MOBILE_BIN`, and `HERDR_MOBILE_PORT`. An explicit workspace limits the bridge scope. Keep private access configuration under ignored `.local/` and use your own credentials and machine settings.
-
-`Start-Mobile.ps1` can supervise the bridge. This backup does not install a scheduled task or copy the original computer's configuration.
-
-### Reproduce the screenshots
-
-```sh
-node scripts/demo.mjs
-```
-
-Open **http://127.0.0.1:4319**. The demo rejects terminal writes and does not connect to real agents. It uses the same frontend and server rendering path as the app.
-
-## What to expect
-
-This is a private development backup, not a universal compatibility guarantee.
-
-- Agent status and available history depend on Herdr and the underlying TUI. Alternate-screen programs may not retain earlier output.
-- SSH sessions currently support reading, launch, and keyboard input. Remote mouse input, file transfers, and teams are not implemented.
-- Neovim's phone-fit helper currently targets local Windows Neovim with its default control pipe. Resizing changes the shared desktop editor too; custom socket arrangements may not work.
-- iPhone push needs the installed Home Screen app and notification permission. The bridge and remote host must stay reachable. Actual delivery depends on the device and push service.
-- Dictation, camera input, and keyboard behavior depend on browser/device support. Desktop browser emulation does not replace physical-device testing.
-
-## Privacy and backup scope
-
-Included: application source, tests, package lock, local assets, required notices, and synthetic demo media.
-
-Excluded: `.local/`, installed dependencies, personal wallpapers, chats, recordings, attachments, worktrees, saved machine addresses, push keys/subscriptions, environment files, logs, and private planning/evidence documents. This is a source backup; restore your own private configuration separately.
-
-## Authorship and notices
-
-Maintained by the repository owner. This repository uses owner-authored commits and GitHub's no-reply email; no assistant co-author credit is added.
-
-Third-party authorship and license notices remain in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md), [licenses](licenses), and asset license files. Theme references do not imply affiliation or endorsement. No new license for the original application code is granted by this backup.
+Maintained by [ArtMoreno](https://github.com/ArtMoreno). Required third-party notices are in [THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) and [licenses](licenses). No license for the original application code has been granted yet.
