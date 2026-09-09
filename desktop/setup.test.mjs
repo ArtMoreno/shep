@@ -7,8 +7,21 @@ import {pairing} from './pairing.mjs';
 import {identity, checkRoute, connectPhone} from './setup.mjs';
 import {createBridge} from '../server.mjs';
 import {request} from 'node:http';
+import {createPushService} from '../push.mjs';
 
 const status={BackendState:'Running',Self:{DNSName:'demo.example.ts.net.',UserID:1},User:{1:{LoginName:'owner@example.test'}}};
+test('revoking a paired device prevents subsequent push delivery',async t=>{
+  const dir=await mkdtemp(join(tmpdir(),'shep-push-revoke-'));
+  t.mock.timers.enable({apis:['setTimeout']});
+  let state='working',allowed=true,sends=0;
+  const push=await createPushService({file:join(dir,'push.json'),origin:'https://demo.example.ts.net',deviceAllowed:id=>allowed&&id==='phone',snapshot:async()=>[{terminal_id:'terminal',pane_id:'pane',agent:'codex',agent_status:state}],send:async()=>{sends++;}});
+  try{
+    await push.subscribe({endpoint:'https://web.push.apple.com/demo',keys:{p256dh:'A'.repeat(87),auth:'B'.repeat(22)}},'phone');
+    const tick=async()=>{t.mock.timers.tick(3001);await new Promise(setImmediate);};
+    await tick();state='idle';await tick();assert.equal(sends,1);
+    allowed=false;state='working';await tick();state='blocked';await tick();assert.equal(sends,1);
+  }finally{push.stop();t.mock.timers.reset();await rm(dir,{recursive:true,force:true});}
+});
 test('Tailscale identity and route checks reject offline, tagged, public and occupied routes',()=>{
   assert.deepEqual(identity(status),{origin:'https://demo.example.ts.net:8443',userLogin:'owner@example.test'});
   assert.throws(()=>identity({...status,BackendState:'NeedsLogin'}));

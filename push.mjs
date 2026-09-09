@@ -12,7 +12,7 @@ export function validSubscription(s) {
 export function completion(previous,current) {
   return !!previous&&previous!==current&&(current==='blocked'||previous==='working'&&['done','idle'].includes(current));
 }
-export async function createPushService({file,snapshot,origin,send=webpush.sendNotification}) {
+export async function createPushService({file,snapshot,origin,send=webpush.sendNotification,deviceAllowed=()=>true}) {
   let data;
   try{data=JSON.parse(await readFile(file,'utf8'));}catch(e){if(e.code!=='ENOENT')throw e;data={...webpush.generateVAPIDKeys(),subscriptions:[]};}
   let queue=Promise.resolve();
@@ -29,7 +29,7 @@ export async function createPushService({file,snapshot,origin,send=webpush.sendN
           if(!completion(old,now))continue;
           const title=(pane.machineLabel?pane.machineLabel+' · ':'')+(pane.agent||'Session')+(now==='blocked'?' needs attention':' finished');
           const payload=JSON.stringify({title,body:'Tap to open your session.',paneId:pane.pane_id,machineId:pane.machineId||'local',tag:id});
-          for(const subscription of [...data.subscriptions])try{await send(subscription,payload,{vapidDetails:{subject:origin,publicKey:data.publicKey,privateKey:data.privateKey},TTL:3600,timeout:8000});}catch(e){if([404,410].includes(e.statusCode)){data.subscriptions=data.subscriptions.filter(s=>s.endpoint!==subscription.endpoint);await persist();}}
+          for(const subscription of [...data.subscriptions])try{if(!deviceAllowed(subscription.deviceId))continue;await send(subscription,payload,{vapidDetails:{subject:origin,publicKey:data.publicKey,privateKey:data.privateKey},TTL:3600,timeout:8000});}catch(e){if([404,410].includes(e.statusCode)){data.subscriptions=data.subscriptions.filter(s=>s.endpoint!==subscription.endpoint);await persist();}}
         }
       }
     }catch{/* Next snapshot retries; no terminal input is ever sent. */}
@@ -38,7 +38,7 @@ export async function createPushService({file,snapshot,origin,send=webpush.sendN
   await persist();tick();
   return {
     publicKey:data.publicKey,
-    async subscribe(s){if(!validSubscription(s))throw Object.assign(new Error('Unsupported push subscription'),{status:400});if(data.subscriptions.length>=8&&!data.subscriptions.some(old=>old.endpoint===s.endpoint))throw Object.assign(new Error('Eight devices maximum'),{status:400});data.subscriptions=data.subscriptions.filter(old=>old.endpoint!==s.endpoint);data.subscriptions.push({endpoint:s.endpoint,keys:{p256dh:s.keys.p256dh,auth:s.keys.auth}});await persist();},
+    async subscribe(s,deviceId){if(!validSubscription(s))throw Object.assign(new Error('Unsupported push subscription'),{status:400});if(data.subscriptions.length>=8&&!data.subscriptions.some(old=>old.endpoint===s.endpoint))throw Object.assign(new Error('Eight devices maximum'),{status:400});data.subscriptions=data.subscriptions.filter(old=>old.endpoint!==s.endpoint);data.subscriptions.push({endpoint:s.endpoint,keys:{p256dh:s.keys.p256dh,auth:s.keys.auth},...(deviceId?{deviceId}:{})});await persist();},
     async unsubscribe(endpoint){data.subscriptions=data.subscriptions.filter(s=>s.endpoint!==endpoint);await persist();},
     stop(){stopped=true;clearTimeout(timer);}
   };

@@ -22,7 +22,8 @@ export async function pairing(file, now = Date.now) {
         res.writeHead(303, {Location:'/', 'Set-Cookie':`shep_device=${token}; HttpOnly; Secure; SameSite=Strict; Path=/; Max-Age=31536000`}); res.end(); return false;
       }
       const token = (req.headers.cookie || '').split(/;\s*/).find(c=>c.startsWith('shep_device='))?.slice(12);
-      if(token && devices.some(d=>d.hash===hash(token))) return true;
+      const device=token && devices.find(d=>d.hash===hash(token));
+      if(device){req.shepDeviceId=device.id;return true;}
       res.writeHead(403, {'Content-Type':'text/plain; charset=utf-8'}); res.end('This device is not paired. Scan a new QR code from Shep on your computer.'); return false;
     }
   };

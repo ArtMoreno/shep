@@ -306,7 +306,7 @@ export function createBridge(connection, call = rpc, wallpaper = pcWallpaper, qu
       if(url.pathname==='/api/teams')return json(202,{bridgeId,team:await teams.start(body,bridgeId)});
       if(url.pathname.startsWith('/api/push/')) {
         if(!push)throw fail(503,'Notifications are unavailable on this bridge');
-        if(url.pathname.endsWith('/subscribe'))await push.subscribe(body);else await push.unsubscribe(body?.endpoint);
+        if(url.pathname.endsWith('/subscribe'))await push.subscribe(body,request.shepDeviceId||'local');else await push.unsubscribe(body?.endpoint);
         return json(200,{ok:true});
       }
       if(url.pathname==='/api/launch') {
@@ -406,7 +406,7 @@ export function createBridge(connection, call = rpc, wallpaper = pcWallpaper, qu
   return server;
 }
 
-export async function startBridge({authorize} = {}) {
+export async function startBridge({authorize,deviceAllowed} = {}) {
     await mkdir(statePath(''), {recursive:true});
     const connection = await discover(process.env.HERDR_MOBILE_SESSION || 'default');
     connection.launchHome=async()=>homedir();
@@ -425,7 +425,7 @@ export async function startBridge({authorize} = {}) {
     const port = Number(process.env.HERDR_MOBILE_PORT || 4317);
     if (!Number.isInteger(port) || port < 1024 || port > 65535) throw new Error('Invalid bridge port');
     const watchers=new Map();
-    const push=await createPushService({file:statePath('push.json'),origin:connection.access?.origin||'https://herdr.dev',snapshot:async()=>{
+    const push=await createPushService({file:statePath('push.json'),deviceAllowed,origin:connection.access?.origin||'https://herdr.dev',snapshot:async()=>{
       const allowed=new Set([connection.workspaceId,...(connection.workspaceIds||[])]);
       const saved=await savedMachines();
       for(const [id,w] of watchers)if(!saved.some(m=>m.id===id&&JSON.stringify(m)===w.identity)){w.transport.close();watchers.delete(id);}

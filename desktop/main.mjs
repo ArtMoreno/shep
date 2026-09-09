@@ -38,7 +38,7 @@ else {
     process.env.HERDR_MOBILE_SESSION=settings.session||'default';
     if(settings.binary)process.env.HERDR_MOBILE_BIN=settings.binary;
     process.env.HERDR_MOBILE_PORT=String(await freePort());
-    bridge=await startBridge({authorize:pairs.authorize});
+    bridge=await startBridge({authorize:pairs.authorize,deviceAllowed:id=>id==='local'||pairs.list().some(d=>d.id===id)});
     settings.port=bridge.address().port;settings.enabled=true;
     await persist();message='Shep is running. You can now connect your phone.';
   }
